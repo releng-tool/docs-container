@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+exec docker run "$@" -it --rm ghcr.io/releng-tool/docs-container
