@@ -20,6 +20,7 @@ WORKDIR /home/default
 ENV PATH="$PATH:/home/default/.local/bin"
 
 RUN pipx install sphinx && \
+    pipx install sphinx-intl && \
     pipx inject sphinx \
     furo \
     myst-parser \
