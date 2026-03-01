@@ -3,7 +3,14 @@
 
 FROM ubuntu:latest
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+# non-interactive apt usage
+ENV DEBIAN_FRONTEND=noninteractive
+
+# pre-register pipx path
+ENV PATH="$PATH:/root/.local/bin"
+
+RUN apt-get update && apt-get install -y \
+    # system packages
     gettext \
     git \
     make \
@@ -12,19 +19,17 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     rsync \
     texlive-full \
     xindy \
-    && rm -rf /var/lib/apt/lists/* \
-    && useradd -ms /bin/bash default
-
-USER default
-WORKDIR /home/default
-ENV PATH="$PATH:/home/default/.local/bin"
-
-RUN pipx install sphinx && \
-    pipx install sphinx-intl && \
-    pipx inject sphinx \
+    # pypi-provided packages
+    && pipx install \
+    sphinx \
+    sphinx-intl \
+    # modules for sphinx
+    && pipx inject sphinx \
     furo \
     myst-parser \
     pygments \
     sphinx \
     sphinx-inline-tabs \
-    sphinx-intl
+    sphinx-intl \
+    # cleanup
+    && rm -rf /var/lib/apt/lists/*
