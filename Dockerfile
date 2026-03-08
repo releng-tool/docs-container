@@ -21,7 +21,8 @@ RUN apt-get update && apt-get install -y \
     xindy \
     # pypi-provided packages
     && pipx install \
-    sphinx \
+    # pin sphinx v8.1.3; github.com/sphinx-doc/sphinx/issues/14221
+    sphinx==8.1.3 \
     sphinx-intl \
     # modules for sphinx
     && pipx inject sphinx \
